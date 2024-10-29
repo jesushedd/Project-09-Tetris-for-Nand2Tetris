@@ -1,0 +1,251 @@
+function SmashBoy.new 8
+push constant 12
+call Memory.alloc 1
+pop pointer 0
+push constant 2
+pop this 7
+push argument 2
+pop this 6
+push argument 0
+pop this 4
+push argument 1
+pop this 5
+push this 4
+pop local 0
+push this 5
+pop local 1
+push local 0
+push this 6
+add
+push this 7
+add
+pop local 2
+push local 1
+pop local 3
+push local 0
+pop local 4
+push this 5
+push this 6
+add
+push this 7
+add
+pop local 5
+push local 2
+pop local 6
+push local 5
+pop local 7
+push local 0
+push local 3
+push this 6
+call Square.new 3
+pop this 0
+push local 2
+push local 3
+push this 6
+call Square.new 3
+pop this 1
+push local 4
+push local 5
+push this 6
+call Square.new 3
+pop this 2
+push local 6
+push local 7
+push this 6
+call Square.new 3
+pop this 3
+push this 0
+call Square.getTopEdge 1
+pop this 8
+push this 2
+call Square.getBotEdge 1
+pop this 11
+push this 1
+call Square.getRightEdge 1
+pop this 9
+push this 0
+call Square.getLeftEdge 1
+pop this 10
+push pointer 0
+return
+function SmashBoy.getTopEdge 0
+push argument 0
+pop pointer 0
+push this 8
+return
+function SmashBoy.getBotEdge 0
+push argument 0
+pop pointer 0
+push this 11
+return
+function SmashBoy.getRightEdge 0
+push argument 0
+pop pointer 0
+push this 9
+return
+function SmashBoy.getLeftEdge 0
+push argument 0
+pop pointer 0
+push this 10
+return
+function SmashBoy.moveRight 0
+push argument 0
+pop pointer 0
+push this 1
+call Square.getRightEdge 1
+push constant 510
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 1
+call Square.moveRight 1
+pop temp 0
+push this 3
+call Square.moveRight 1
+pop temp 0
+push this 0
+call Square.moveRight 1
+pop temp 0
+push this 2
+call Square.moveRight 1
+pop temp 0
+push this 1
+call Square.getLeftEdge 1
+pop this 10
+push this 0
+call Square.getRightEdge 1
+pop this 9
+label IF_FALSE0
+push constant 0
+return
+function SmashBoy.moveLeft 0
+push argument 0
+pop pointer 0
+push this 0
+call Square.getLeftEdge 1
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+call Square.moveLeft 1
+pop temp 0
+push this 2
+call Square.moveLeft 1
+pop temp 0
+push this 1
+call Square.moveLeft 1
+pop temp 0
+push this 3
+call Square.moveLeft 1
+pop temp 0
+push this 1
+call Square.getLeftEdge 1
+pop this 10
+push this 0
+call Square.getRightEdge 1
+pop this 9
+label IF_FALSE0
+push constant 0
+return
+function SmashBoy.moveUp 0
+push argument 0
+pop pointer 0
+push this 0
+call Square.getTopEdge 1
+push constant 1
+gt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 0
+call Square.moveUp 1
+pop temp 0
+push this 1
+call Square.moveUp 1
+pop temp 0
+push this 2
+call Square.moveUp 1
+pop temp 0
+push this 3
+call Square.moveUp 1
+pop temp 0
+push this 1
+call Square.getTopEdge 1
+pop this 8
+push this 2
+call Square.getBotEdge 1
+pop this 11
+label IF_FALSE0
+push constant 0
+return
+function SmashBoy.moveDown 0
+push argument 0
+pop pointer 0
+push this 2
+call Square.getBotEdge 1
+push constant 251
+lt
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push this 2
+call Square.moveDown 1
+pop temp 0
+push this 3
+call Square.moveDown 1
+pop temp 0
+push this 0
+call Square.moveDown 1
+pop temp 0
+push this 1
+call Square.moveDown 1
+pop temp 0
+push this 1
+call Square.getTopEdge 1
+pop this 8
+push this 2
+call Square.getBotEdge 1
+pop this 11
+label IF_FALSE0
+push constant 0
+return
+function SmashBoy.erase 0
+push argument 0
+pop pointer 0
+push this 0
+call Square.erase 1
+pop temp 0
+push this 1
+call Square.erase 1
+pop temp 0
+push this 2
+call Square.erase 1
+pop temp 0
+push this 3
+call Square.erase 1
+pop temp 0
+push constant 0
+return
+function SmashBoy.dispose 0
+push argument 0
+pop pointer 0
+push this 0
+call Square.dispose 1
+pop temp 0
+push this 1
+call Square.dispose 1
+pop temp 0
+push this 2
+call Square.dispose 1
+pop temp 0
+push this 3
+call Square.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
