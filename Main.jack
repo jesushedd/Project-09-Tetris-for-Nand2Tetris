@@ -1,0 +1,24 @@
+class Main {
+    function void main(){
+	    var SmashBoy smashboy;
+        var Hero hero;
+        var HeroStand herostand;
+        var TeeweeUp tewe;
+        var TeeweeDown tewe2;
+        //let smashboy = SmashBoy.new(0,0,30);
+        let hero = Hero.new(100,100,30);
+        let herostand = HeroStand.new(0,100,30);
+        let tewe = TeeweeUp.new(50,50,20);
+        let tewe2 = TeeweeDown.new(0,0,20);
+
+        while (true){
+            do hero.moveDown();
+            do herostand.moveRight();
+            //do smashboy.moveRight();
+            do tewe.moveDown();
+            do tewe2.moveRight();
+            do Sys.wait(10);
+        }
+        return;
+    }
+}

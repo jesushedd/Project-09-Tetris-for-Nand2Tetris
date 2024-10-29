@@ -1,0 +1,177 @@
+class TeeweeUp{
+    // s1 to s4 are the squares from what Hero is made of
+    field Square s1;
+    field Square s2;
+    field Square s3;
+    field Square s4;
+    field int x, y;//top left corner , empty space
+    field int size;//side size of each square
+    field int gap;//gap between squares
+    field int topEdge;//top y coordinates from all figure
+    field int rightEdge;//right x coordinates from all figure
+    field int leftEdge;// left x cordinates from all figure
+    field int botEdge;//bottom y coordinates from all figure
+
+    constructor TeeweeUp new(int ax, int ay, int asize ){
+        //Top left Coordinates for each square to draw
+        var int s1XX;
+        var int s1YY;
+
+        var int s2XX;
+        var int s2YY;
+
+        var int s3XX;
+        var int s3YY;
+
+        var int s4XX;
+        var int s4YY;   
+
+        let gap = 2;
+        let size = asize;
+        
+        let x = ax;
+        let y = ay;
+
+        let s1XX = x;
+        let s1YY = y + size + gap;
+
+        let s2XX = s1XX + size + gap;
+        let s2YY = s1YY;
+
+        let s3XX = s2XX + size + gap;
+        let s3YY = s2YY;
+
+        let s4XX = x + size + gap;
+        let s4YY = y;
+        //create and draw each square
+        let s1 = Square.new(s1XX, s1YY, size);
+        let s2 = Square.new(s2XX, s2YY, size);
+        let s3 = Square.new(s3XX, s3YY, size);
+        let s4 = Square.new(s4XX, s4YY, size);
+
+
+        //set edges
+        let topEdge = s4.getTopEdge();
+        let botEdge = s1.getBotEdge();
+        let rightEdge = s3.getRightEdge();
+        let leftEdge = s1.getLeftEdge();
+
+        return this;
+
+
+    }
+
+    method int getTopEdge() {
+        return topEdge;
+    }
+
+    method int getBotEdge() {
+        return botEdge;
+    }
+
+    method int getRightEdge() {
+        return rightEdge;
+    }
+
+    method int getLeftEdge() {
+        return leftEdge;
+    }
+
+
+
+    //Move Teewee 2 pixels to right, if possible
+    method void moveRight(){
+        if (s3.getRightEdge() < 510){
+            
+            
+            do s3.moveRight();
+            do s2.moveRight();
+            
+            do s4.moveRight();
+            do s1.moveRight();
+
+
+            let leftEdge = s1.getLeftEdge();
+            let rightEdge = s3.getRightEdge();
+        }
+
+        return;
+    }
+
+
+
+    //Move Teewee 2 pixels to left, if possible
+    method void moveLeft(){
+
+        if (s1.getLeftEdge() > 1){
+        
+            do s1.moveLeft();
+            do s2.moveLeft();
+
+            do s4.moveLeft();
+            do s3.moveLeft();
+
+            let leftEdge = s1.getLeftEdge();
+            let rightEdge = s3.getRightEdge();
+            }
+
+        return;
+    }
+
+
+    //Move Hero 2 pixels up, if possible
+    method void moveUp(){
+        
+        if (s4.getTopEdge() > 1){
+
+            do s4.moveUp();
+            do s2.moveUp();
+            do s3.moveUp();
+            do s1.moveUp();
+
+            let topEdge = s4.getTopEdge();
+            let botEdge = s2.getBotEdge();
+        }
+        return;
+    }
+
+
+    //Move Hero 2 pixels down, if possible
+    method void moveDown(){
+        if (s2.getBotEdge() < 251){
+
+       
+
+        do s1.moveDown();
+        do s3.moveDown();
+        do s2.moveDown();
+        do s4.moveDown();    
+
+        let topEdge = s4.getTopEdge();
+        let botEdge = s2.getBotEdge();
+        }
+        return;
+    }
+
+
+    method void erase(){
+        do s1.erase();
+        do s2.erase();
+        do s3.erase();
+        do s4.erase();
+        return;
+    }
+
+
+
+    method void dispose() {
+        do s1.dispose();
+        do s2.dispose();
+        do s3.dispose();
+        do s4.dispose();
+        do Memory.deAlloc(this);
+      return;
+   }
+
+
+}
