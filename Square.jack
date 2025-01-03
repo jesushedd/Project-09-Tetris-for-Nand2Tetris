@@ -9,12 +9,14 @@ class Square {
 
    field int x, y; // screen location of the top-left corner of this square
    field int size; // length of this square, in pixels
+   static int SCREEN;
 
    /** Constructs and draws a new square with a given location and size. */
    constructor Square new(int ax, int ay, int asize) {
       let x = ax;
       let y = ay;
       let size = asize;
+      let SCREEN = 16384;
       do draw();
       return this;
    }
@@ -95,7 +97,14 @@ class Square {
 
    /** Moves the square down by 2 pixels (if possible). */
    method void moveDown() {
-      if ((y + size) < 254) {
+      if (checkColisionDown()){
+         return;
+      }
+
+      if ((y + size) < 254){
+         
+      
+      
          do Screen.setColor(false);
          do Screen.drawRectangle(x, y, x + size, y + 1);
          let y = y + 2;
@@ -103,6 +112,76 @@ class Square {
          do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
       }
       return;
+   }
+
+   method boolean checkColisionDown(){
+      var int leftPX;
+      var int leftPY;
+      var int midPX;
+      var int midPY;
+      var int rightPX;
+      var int rightPY;
+      //Get pixel positions for bottom border
+      // pixels at left and right corners, and pixel between these two
+      let leftPX = x;
+      let leftPY = y + size;
+
+      let midPX = (size / 2) + x;
+      let midPY = y + size;
+
+      let rightPX = x + size;
+      let rightPY = y + size;
+      //check if the pixel below one of these is currently "black" -> 1
+      if (checkBlackPixel(leftPX, leftPY + 1) | checkBlackPixel(midPX, midPY + 1) | checkBlackPixel(rightPX, rightPY + 1)){
+         /*do Output.printString("El pixel de abajo es negro");*/
+         return true;
+      }
+      return false;
+
+
+   }
+
+
+   /*
+    * Function to check if a given pixel es 0(white) or 1(black)
+    * Given its position in scrren
+   */
+   method boolean checkBlackPixel(int xC , int yC){
+      
+      var int memoryBlock, picPosition, mask, i;
+      let i = 0;
+      let mask = 2;
+      //calculate memory addres(word) from x and y coordinates
+      let memoryBlock =  Memory.peek(SCREEN + (32 * yC) + (xC / 16));
+      //calculate bit position that represent target pixel
+      //from left to right -> right to left
+      let picPosition =  (15 - (xC - ((xC / 16) * 16)));
+
+      if (picPosition = 0){
+         let mask = 1;// 0000 0000 0000 0001
+      }
+      if (picPosition = 15){
+         let mask = 32767 + 1;// 1000 0000 0000 0000
+      }
+      else {
+         while (i < picPosition){
+            let mask = mask * 2;
+            let i = i + 1;
+         }
+      }
+      /*do Output.printString("    ");
+
+      do Output.printInt(mask);
+      do Output.printString("    ");
+
+      do Output.printInt(memoryBlock);*/
+
+      /*if ((mask & memoryBlock) = mask){
+         return true;
+      }*/
+
+      return (mask & memoryBlock);
+      
    }
 
    /** Moves the square left by 2 pixels (if possible). */
